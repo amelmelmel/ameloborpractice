@@ -5,7 +5,10 @@ import {
   ESSAY_QUESTIONS,
   QUIZ_DURATION_SECONDS,
   scoreEssay,
+  pickRandomByCategory,
   type Choice,
+  type MCQ,
+  type Essay,
 } from "@/lib/quiz-data";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -14,7 +17,7 @@ import { Badge } from "@/components/ui/badge";
 
 const TITLE = "English Quiz Master — Kuis Bahasa Inggris SD Kelas 5-6";
 const DESC =
-  "Game kuis bahasa Inggris interaktif: 30 soal pilihan ganda dan 2 soal uraian dalam 20 menit, lengkap dengan skor otomatis dan pembahasan.";
+  "Game kuis bahasa Inggris interaktif: 50 soal pilihan ganda dari berbagai kategori dalam 30 menit, lengkap dengan skor otomatis dan pembahasan.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -32,7 +35,6 @@ export const Route = createFileRoute("/")({
 
 type Stage = "intro" | "playing" | "result" | "review";
 const LETTERS: Choice[] = ["a", "b", "c", "d"];
-const TOTAL = MCQ_QUESTIONS.length + ESSAY_QUESTIONS.length;
 
 function fmt(sec: number) {
   const m = Math.floor(sec / 60);
@@ -46,6 +48,10 @@ function QuizGame() {
   const [answers, setAnswers] = useState<Record<number, Choice>>({});
   const [essays, setEssays] = useState<Record<number, string>>({});
   const [left, setLeft] = useState(QUIZ_DURATION_SECONDS);
+  const [shuffledMCQ, setShuffledMCQ] = useState<MCQ[]>([]);
+  const [shuffledEssay, setShuffledEssay] = useState<Essay[]>(ESSAY_QUESTIONS);
+
+  const TOTAL = shuffledMCQ.length + shuffledEssay.length;
 
   const finish = useCallback(() => setStage("result"), []);
 
@@ -65,6 +71,9 @@ function QuizGame() {
   }, [stage, finish]);
 
   const start = () => {
+    // Ambil 5 soal per kategori (total ~50-60 soal dari berbagai kategori)
+    setShuffledMCQ(pickRandomByCategory(MCQ_QUESTIONS, 5));
+    setShuffledEssay(ESSAY_QUESTIONS); // Tetap pakai semua essay (2 soal)
     setAnswers({});
     setEssays({});
     setIndex(0);
@@ -76,14 +85,14 @@ function QuizGame() {
     let correct = 0;
     let wrong = 0;
     let blank = 0;
-    for (const q of MCQ_QUESTIONS) {
+    for (const q of shuffledMCQ) {
       const a = answers[q.id];
       if (!a) blank++;
       else if (a === q.answer) correct++;
       else wrong++;
     }
     const mcqScore = correct * 4 - wrong;
-    const essayScores = ESSAY_QUESTIONS.map((e) => scoreEssay(e, essays[e.id] ?? ""));
+    const essayScores = shuffledEssay.map((e) => scoreEssay(e, essays[e.id] ?? ""));
     const essayScore = essayScores.reduce((a, b) => a + b, 0);
     return {
       correct,
@@ -93,9 +102,9 @@ function QuizGame() {
       essayScores,
       essayScore,
       total: mcqScore + essayScore,
-      max: MCQ_QUESTIONS.length * 4 + ESSAY_QUESTIONS.length * 10,
+      max: shuffledMCQ.length * 4 + shuffledEssay.length * 10,
     };
-  }, [answers, essays]);
+  }, [answers, essays, shuffledMCQ, shuffledEssay]);
 
   if (stage === "intro") return <Intro onStart={start} />;
   if (stage === "result")
@@ -104,6 +113,8 @@ function QuizGame() {
         result={result}
         answers={answers}
         essays={essays}
+        mcqQuestions={shuffledMCQ}
+        essayQuestions={shuffledEssay}
         onRestart={start}
         onReview={() => {
           setIndex(0);
@@ -118,6 +129,8 @@ function QuizGame() {
         result={result}
         answers={answers}
         essays={essays}
+        mcqQuestions={shuffledMCQ}
+        essayQuestions={shuffledEssay}
         index={index}
         setIndex={setIndex}
         onBack={() => setStage("result")}
@@ -125,9 +138,9 @@ function QuizGame() {
       />
     );
 
-  const isEssay = index >= MCQ_QUESTIONS.length;
-  const essay = isEssay ? ESSAY_QUESTIONS[index - MCQ_QUESTIONS.length] : null;
-  const mcq = !isEssay ? MCQ_QUESTIONS[index] : null;
+  const isEssay = index >= shuffledMCQ.length;
+  const essay = isEssay ? shuffledEssay[index - shuffledMCQ.length] : null;
+  const mcq = !isEssay ? shuffledMCQ[index] : null;
   const answeredCount =
     Object.keys(answers).length + Object.values(essays).filter((v) => v.trim().length > 0).length;
 
@@ -231,12 +244,12 @@ function QuizGame() {
         <div className="grid grid-cols-8 gap-2 sm:grid-cols-11">
           {Array.from({ length: TOTAL }, (_, i) => {
             const id =
-              i < MCQ_QUESTIONS.length
-                ? MCQ_QUESTIONS[i]!.id
-                : ESSAY_QUESTIONS[i - MCQ_QUESTIONS.length]!.id;
+              i < shuffledMCQ.length
+                ? shuffledMCQ[i]!.id
+                : shuffledEssay[i - shuffledMCQ.length]!.id;
 
             const done =
-              i < MCQ_QUESTIONS.length ? !!answers[id] : (essays[id] ?? "").trim().length > 0;
+              i < shuffledMCQ.length ? !!answers[id] : (essays[id] ?? "").trim().length > 0;
             return (
               <button
                 key={i}
@@ -275,9 +288,9 @@ function Intro({ onStart }: { onStart: () => void }) {
           </p>
         </div>
         <div className="grid gap-4 p-6 sm:grid-cols-3 sm:p-8">
-          <Info label="Jumlah Soal" value="30 PG + 2 Uraian" />
-          <Info label="Waktu" value="20 Menit" />
-          <Info label="Nilai Maksimal" value="140 Poin" />
+          <Info label="Jumlah Soal" value="50 PG + 2 Uraian" />
+          <Info label="Waktu" value="30 Menit" />
+          <Info label="Nilai Maksimal" value="220 Poin" />
         </div>
         <div className="border-t border-border bg-muted/50 p-6 sm:p-8">
           <h2 className="font-display text-lg font-bold">Sistem Penilaian</h2>
@@ -320,6 +333,8 @@ function Result({
   result,
   answers,
   essays,
+  mcqQuestions,
+  essayQuestions,
   onRestart,
   onReview,
   timeLeft,
@@ -327,6 +342,8 @@ function Result({
   result: ResultData;
   answers: Record<number, Choice>;
   essays: Record<number, string>;
+  mcqQuestions: MCQ[];
+  essayQuestions: Essay[];
   onRestart: () => void;
   onReview: () => void;
   timeLeft: number;
@@ -355,7 +372,7 @@ function Result({
 
       <section className="card-quiz mt-5 p-6">
         <h2 className="font-display text-lg font-bold">Jawaban Uraian ({result.essayScore}/20)</h2>
-        {ESSAY_QUESTIONS.map((e, i) => (
+        {essayQuestions.map((e, i) => (
           <div key={e.id} className="mt-4 rounded-2xl border border-border p-4">
             <p className="text-sm font-semibold">{e.prompt}</p>
             <p className="mt-2 text-sm text-muted-foreground">
@@ -374,7 +391,7 @@ function Result({
       <section className="card-quiz mt-5 p-6">
         <h2 className="font-display text-lg font-bold">Pembahasan Pilihan Ganda</h2>
         <div className="mt-4 grid gap-3">
-          {MCQ_QUESTIONS.map((q, i) => {
+          {mcqQuestions.map((q, i) => {
             const a = answers[q.id];
             const ok = a === q.answer;
             return (
@@ -418,6 +435,8 @@ function Review({
   result,
   answers,
   essays,
+  mcqQuestions,
+  essayQuestions,
   index,
   setIndex,
   onBack,
@@ -426,16 +445,19 @@ function Review({
   result: ResultData;
   answers: Record<number, Choice>;
   essays: Record<number, string>;
+  mcqQuestions: MCQ[];
+  essayQuestions: Essay[];
   index: number;
   setIndex: (i: number) => void;
   onBack: () => void;
   onRestart: () => void;
 }) {
-  const isEssay = index >= MCQ_QUESTIONS.length;
-  const essay = isEssay ? ESSAY_QUESTIONS[index - MCQ_QUESTIONS.length] : null;
-  const mcq = !isEssay ? MCQ_QUESTIONS[index] : null;
+  const TOTAL = mcqQuestions.length + essayQuestions.length;
+  const isEssay = index >= mcqQuestions.length;
+  const essay = isEssay ? essayQuestions[index - mcqQuestions.length] : null;
+  const mcq = !isEssay ? mcqQuestions[index] : null;
   const picked = mcq ? answers[mcq.id] : undefined;
-  const essayScore = essay ? result.essayScores[index - MCQ_QUESTIONS.length] : null;
+  const essayScore = essay ? result.essayScores[index - mcqQuestions.length] : null;
 
   return (
     <main className="mx-auto min-h-screen w-full max-w-3xl px-4 py-6">
@@ -573,14 +595,14 @@ function Review({
         <div className="grid grid-cols-8 gap-2 sm:grid-cols-11">
           {Array.from({ length: TOTAL }, (_, i) => {
             let cls = "bg-muted text-muted-foreground";
-            if (i < MCQ_QUESTIONS.length) {
-              const q = MCQ_QUESTIONS[i]!;
+            if (i < mcqQuestions.length) {
+              const q = mcqQuestions[i]!;
               const a = answers[q.id];
               if (!a) cls = "bg-muted text-muted-foreground";
               else if (a === q.answer) cls = "bg-success text-success-foreground";
               else cls = "bg-destructive text-destructive-foreground";
             } else {
-              const e = ESSAY_QUESTIONS[i - MCQ_QUESTIONS.length]!;
+              const e = essayQuestions[i - mcqQuestions.length]!;
               if ((essays[e.id] ?? "").trim()) cls = "surface-accent";
             }
             return (
@@ -606,3 +628,4 @@ function Review({
     </main>
   );
 }
+
