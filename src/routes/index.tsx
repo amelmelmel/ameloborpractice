@@ -413,3 +413,196 @@ function Result({
     </main>
   );
 }
+
+function Review({
+  result,
+  answers,
+  essays,
+  index,
+  setIndex,
+  onBack,
+  onRestart,
+}: {
+  result: ResultData;
+  answers: Record<number, Choice>;
+  essays: Record<number, string>;
+  index: number;
+  setIndex: (i: number) => void;
+  onBack: () => void;
+  onRestart: () => void;
+}) {
+  const isEssay = index >= MCQ_QUESTIONS.length;
+  const essay = isEssay ? ESSAY_QUESTIONS[index - MCQ_QUESTIONS.length] : null;
+  const mcq = !isEssay ? MCQ_QUESTIONS[index] : null;
+  const picked = mcq ? answers[mcq.id] : undefined;
+  const essayScore = essay ? result.essayScores[index - MCQ_QUESTIONS.length] : null;
+
+  return (
+    <main className="mx-auto min-h-screen w-full max-w-3xl px-4 py-6">
+      <header className="card-quiz mb-5 flex flex-wrap items-center justify-between gap-3 p-4">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+            Mode Review
+          </p>
+          <h1 className="font-display text-xl font-bold">
+            Soal {index + 1} <span className="text-muted-foreground">/ {TOTAL}</span>
+          </h1>
+        </div>
+        <div className="flex items-center gap-2">
+          <Badge variant="secondary" className="font-bold">
+            Skor {result.total}/{result.max}
+          </Badge>
+          <Button variant="outline" size="sm" onClick={onBack}>
+            Hasil
+          </Button>
+        </div>
+      </header>
+
+      <section className="card-quiz p-5 sm:p-7">
+        <Badge className="surface-accent border-0 font-bold">{(mcq ?? essay)!.topic}</Badge>
+        <h2 className="mt-4 text-lg leading-relaxed font-semibold sm:text-xl">
+          {mcq ? mcq.question : essay!.prompt}
+        </h2>
+
+        {mcq ? (
+          <>
+            <div className="mt-6 grid gap-3">
+              {LETTERS.map((l) => {
+                const isKey = mcq.answer === l;
+                const isPicked = picked === l;
+                const wrongPick = isPicked && !isKey;
+                return (
+                  <div
+                    key={l}
+                    className={`flex items-center gap-4 rounded-2xl border-2 px-4 py-3 ${
+                      isKey
+                        ? "border-success bg-success/10"
+                        : wrongPick
+                          ? "border-destructive bg-destructive/10"
+                          : "border-border bg-card"
+                    }`}
+                  >
+                    <span
+                      className={`font-display grid h-9 w-9 shrink-0 place-items-center rounded-xl font-bold uppercase ${
+                        isKey
+                          ? "bg-success text-success-foreground"
+                          : wrongPick
+                            ? "bg-destructive text-destructive-foreground"
+                            : "bg-muted text-muted-foreground"
+                      }`}
+                    >
+                      {l}
+                    </span>
+                    <span className="font-medium">{mcq.options[l]}</span>
+                    <span className="ml-auto shrink-0 text-xs font-bold">
+                      {isKey ? "✓ Kunci" : wrongPick ? "✗ Pilihanmu" : isPicked ? "Pilihanmu" : ""}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+            <p
+              className={`mt-4 inline-block rounded-xl px-3 py-1 text-sm font-bold ${
+                !picked
+                  ? "bg-muted text-muted-foreground"
+                  : picked === mcq.answer
+                    ? "bg-success text-success-foreground"
+                    : "bg-destructive text-destructive-foreground"
+              }`}
+            >
+              {!picked
+                ? "Tidak diisi · 0 poin"
+                : picked === mcq.answer
+                  ? "Benar · +4 poin"
+                  : "Salah · -1 poin"}
+            </p>
+            <div className="mt-4 rounded-2xl bg-muted p-4">
+              <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                Pembahasan
+              </p>
+              <p className="mt-1 text-sm leading-relaxed">{mcq.explanation}</p>
+            </div>
+          </>
+        ) : (
+          <div className="mt-6 grid gap-4">
+            <div className="rounded-2xl border-2 border-border p-4">
+              <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                Jawabanmu
+              </p>
+              <p className="mt-1 text-sm leading-relaxed">
+                {essays[essay!.id]?.trim() ? essays[essay!.id] : "(tidak diisi)"}
+              </p>
+              <Badge className="surface-accent mt-3 border-0 font-bold">
+                Poin: {essayScore}/10
+              </Badge>
+            </div>
+            <div className="rounded-2xl border-2 border-success bg-success/10 p-4">
+              <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                Contoh jawaban
+              </p>
+              <p className="mt-1 text-sm leading-relaxed font-medium">{essay!.sample}</p>
+            </div>
+            <div className="rounded-2xl bg-muted p-4">
+              <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">
+                Pembahasan
+              </p>
+              <p className="mt-1 text-sm leading-relaxed">
+                Nilai dihitung dari kata kunci yang muncul ({essay!.keywords.join(", ")}),
+                kelengkapan kalimat, serta penggunaan huruf kapital dan tanda baca. {essay!.hint}
+              </p>
+            </div>
+          </div>
+        )}
+      </section>
+
+      <nav className="mt-5 flex items-center justify-between gap-3">
+        <Button variant="outline" disabled={index === 0} onClick={() => setIndex(index - 1)}>
+          Sebelumnya
+        </Button>
+        {index < TOTAL - 1 ? (
+          <Button onClick={() => setIndex(index + 1)}>Berikutnya</Button>
+        ) : (
+          <Button onClick={onRestart}>Main Lagi</Button>
+        )}
+      </nav>
+
+      <div className="card-quiz mt-5 p-4">
+        <p className="mb-3 text-xs font-bold uppercase tracking-widest text-muted-foreground">
+          Navigasi soal
+        </p>
+        <div className="grid grid-cols-8 gap-2 sm:grid-cols-11">
+          {Array.from({ length: TOTAL }, (_, i) => {
+            let cls = "bg-muted text-muted-foreground";
+            if (i < MCQ_QUESTIONS.length) {
+              const q = MCQ_QUESTIONS[i]!;
+              const a = answers[q.id];
+              if (!a) cls = "bg-muted text-muted-foreground";
+              else if (a === q.answer) cls = "bg-success text-success-foreground";
+              else cls = "bg-destructive text-destructive-foreground";
+            } else {
+              const e = ESSAY_QUESTIONS[i - MCQ_QUESTIONS.length]!;
+              if ((essays[e.id] ?? "").trim()) cls = "surface-accent";
+            }
+            return (
+              <button
+                key={i}
+                onClick={() => setIndex(i)}
+                className={`font-display h-9 rounded-lg text-sm font-bold transition-colors ${
+                  i === index ? "ring-2 ring-primary ring-offset-2 ring-offset-background" : ""
+                } ${cls}`}
+              >
+                {i + 1}
+              </button>
+            );
+          })}
+        </div>
+        <div className="mt-3 flex flex-wrap gap-3 text-xs text-muted-foreground">
+          <span className="flex items-center gap-1"><span className="inline-block h-3 w-3 rounded bg-success" /> Benar</span>
+          <span className="flex items-center gap-1"><span className="inline-block h-3 w-3 rounded bg-destructive" /> Salah</span>
+          <span className="flex items-center gap-1"><span className="inline-block h-3 w-3 rounded bg-muted" /> Kosong</span>
+          <span className="flex items-center gap-1"><span className="inline-block h-3 w-3 rounded bg-accent" /> Uraian terisi</span>
+        </div>
+      </div>
+    </main>
+  );
+}
