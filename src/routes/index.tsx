@@ -30,7 +30,7 @@ export const Route = createFileRoute("/")({
   component: QuizGame,
 });
 
-type Stage = "intro" | "playing" | "result";
+type Stage = "intro" | "playing" | "result" | "review";
 const LETTERS: Choice[] = ["a", "b", "c", "d"];
 const TOTAL = MCQ_QUESTIONS.length + ESSAY_QUESTIONS.length;
 
@@ -99,7 +99,31 @@ function QuizGame() {
 
   if (stage === "intro") return <Intro onStart={start} />;
   if (stage === "result")
-    return <Result result={result} answers={answers} essays={essays} onRestart={start} timeLeft={left} />;
+    return (
+      <Result
+        result={result}
+        answers={answers}
+        essays={essays}
+        onRestart={start}
+        onReview={() => {
+          setIndex(0);
+          setStage("review");
+        }}
+        timeLeft={left}
+      />
+    );
+  if (stage === "review")
+    return (
+      <Review
+        result={result}
+        answers={answers}
+        essays={essays}
+        index={index}
+        setIndex={setIndex}
+        onBack={() => setStage("result")}
+        onRestart={start}
+      />
+    );
 
   const isEssay = index >= MCQ_QUESTIONS.length;
   const essay = isEssay ? ESSAY_QUESTIONS[index - MCQ_QUESTIONS.length] : null;
