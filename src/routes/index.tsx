@@ -402,9 +402,14 @@ function Result({
         </div>
       </section>
 
-      <Button size="lg" className="mt-6 w-full font-bold" onClick={onRestart}>
-        Main Lagi
-      </Button>
+      <div className="mt-6 grid gap-3 sm:grid-cols-2">
+        <Button size="lg" variant="outline" className="w-full font-bold" onClick={onReview}>
+          Review Soal &amp; Pembahasan
+        </Button>
+        <Button size="lg" className="w-full font-bold" onClick={onRestart}>
+          Main Lagi
+        </Button>
+      </div>
     </main>
   );
 }
