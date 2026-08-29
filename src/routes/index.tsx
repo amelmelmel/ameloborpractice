@@ -305,26 +305,30 @@ function Info({ label, value }: { label: string; value: string }) {
   );
 }
 
+type ResultData = {
+  correct: number;
+  wrong: number;
+  blank: number;
+  mcqScore: number;
+  essayScores: number[];
+  essayScore: number;
+  total: number;
+  max: number;
+};
+
 function Result({
   result,
   answers,
   essays,
   onRestart,
+  onReview,
   timeLeft,
 }: {
-  result: {
-    correct: number;
-    wrong: number;
-    blank: number;
-    mcqScore: number;
-    essayScores: number[];
-    essayScore: number;
-    total: number;
-    max: number;
-  };
+  result: ResultData;
   answers: Record<number, Choice>;
   essays: Record<number, string>;
   onRestart: () => void;
+  onReview: () => void;
   timeLeft: number;
 }) {
   const pct = Math.max(0, Math.round((result.total / result.max) * 100));
