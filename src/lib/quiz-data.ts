@@ -25,6 +25,8 @@ export const MCQ_QUESTIONS: MCQ[] = [
     question: "The doctor works in a ....",
     options: { a: "library", b: "hospital", c: "bakery", d: "garage" },
     answer: "b",
+    explanation:
+      "Dokter bekerja di rumah sakit (hospital). Library = perpustakaan, bakery = toko roti, garage = garasi.",
   },
   {
     id: 2,
@@ -32,6 +34,8 @@ export const MCQ_QUESTIONS: MCQ[] = [
     question: "My father is very .... He never gets angry easily.",
     options: { a: "patient", b: "lazy", c: "noisy", d: "dirty" },
     answer: "a",
+    explanation:
+      "'Never gets angry easily' (tidak mudah marah) berarti sabar = patient. Lazy = malas, noisy = berisik, dirty = kotor.",
   },
   {
     id: 3,
@@ -39,6 +43,8 @@ export const MCQ_QUESTIONS: MCQ[] = [
     question: "The opposite of 'expensive' is ....",
     options: { a: "rich", b: "large", c: "cheap", d: "heavy" },
     answer: "c",
+    explanation:
+      "Lawan kata 'expensive' (mahal) adalah 'cheap' (murah). Rich = kaya, large = besar, heavy = berat.",
   },
   {
     id: 4,
@@ -46,6 +52,8 @@ export const MCQ_QUESTIONS: MCQ[] = [
     question: "We use a .... to cut the paper.",
     options: { a: "spoon", b: "ruler", c: "broom", d: "pair of scissors" },
     answer: "d",
+    explanation:
+      "Kita memakai gunting (a pair of scissors) untuk memotong kertas. Spoon = sendok, ruler = penggaris, broom = sapu.",
   },
   {
     id: 5,
@@ -53,6 +61,8 @@ export const MCQ_QUESTIONS: MCQ[] = [
     question: "Rina and I .... students of SD Nusantara.",
     options: { a: "am", b: "is", c: "are", d: "be" },
     answer: "c",
+    explanation:
+      "Subjek 'Rina and I' = 'we' (jamak), jadi to be yang tepat adalah 'are'. 'Am' hanya untuk I, 'is' untuk tunggal.",
   },
   {
     id: 6,
@@ -60,6 +70,7 @@ export const MCQ_QUESTIONS: MCQ[] = [
     question: "There .... many books on the shelf.",
     options: { a: "is", b: "are", c: "was", d: "am" },
     answer: "b",
+    explanation: "'Many books' bersifat jamak (plural), sehingga digunakan 'there are'.",
   },
   {
     id: 7,
@@ -72,6 +83,8 @@ export const MCQ_QUESTIONS: MCQ[] = [
       d: "She gone to school every day.",
     },
     answer: "b",
+    explanation:
+      "Simple Present Tense: subjek orang ketiga tunggal (she/he/it) mendapat kata kerja + s/es → 'She goes'.",
   },
   {
     id: 8,
@@ -79,6 +92,8 @@ export const MCQ_QUESTIONS: MCQ[] = [
     question: "The cat is sleeping .... the table.",
     options: { a: "under", b: "of", c: "and", d: "but" },
     answer: "a",
+    explanation:
+      "Dibutuhkan preposisi tempat; 'under the table' = di bawah meja. 'Of', 'and', dan 'but' bukan preposisi tempat.",
   },
   {
     id: 9,
@@ -86,6 +101,8 @@ export const MCQ_QUESTIONS: MCQ[] = [
     question: "Look! The children .... football in the yard now.",
     options: { a: "play", b: "played", c: "are playing", d: "have play" },
     answer: "c",
+    explanation:
+      "Kata 'Look!' dan 'now' menandakan Present Continuous Tense: to be + V-ing → 'are playing'.",
   },
   {
     id: 10,
@@ -93,6 +110,8 @@ export const MCQ_QUESTIONS: MCQ[] = [
     question: "Yesterday, we .... to the zoo with our teacher.",
     options: { a: "go", b: "goes", c: "going", d: "went" },
     answer: "d",
+    explanation:
+      "'Yesterday' menandakan Simple Past Tense; bentuk lampau (V2) dari 'go' adalah 'went'.",
   },
   {
     id: 11,
@@ -100,6 +119,8 @@ export const MCQ_QUESTIONS: MCQ[] = [
     question: "My mother .... the floor every morning.",
     options: { a: "sweeps", b: "sweep", c: "swept", d: "sweeping" },
     answer: "a",
+    explanation:
+      "'Every morning' = kebiasaan (Simple Present). Subjek 'my mother' (she) memakai V1+s → 'sweeps'.",
   },
   {
     id: 12,
@@ -107,6 +128,8 @@ export const MCQ_QUESTIONS: MCQ[] = [
     question: "I .... my homework last night.",
     options: { a: "do", b: "did", c: "does", d: "doing" },
     answer: "b",
+    explanation:
+      "'Last night' menandakan Simple Past Tense; bentuk lampau dari 'do' adalah 'did'.",
   },
   {
     id: 13,
@@ -114,6 +137,8 @@ export const MCQ_QUESTIONS: MCQ[] = [
     question: "They .... a movie in the living room at the moment.",
     options: { a: "watch", b: "watched", c: "watches", d: "are watching" },
     answer: "d",
+    explanation:
+      "'At the moment' = sedang berlangsung sekarang → Present Continuous: 'are watching'.",
   },
   {
     id: 14,
@@ -121,6 +146,8 @@ export const MCQ_QUESTIONS: MCQ[] = [
     question: "Andi is my brother. .... is ten years old.",
     options: { a: "She", b: "He", c: "It", d: "They" },
     answer: "b",
+    explanation:
+      "Andi adalah laki-laki (brother), kata ganti subjeknya adalah 'He'. She = perempuan, It = benda/hewan.",
   },
   {
     id: 15,
@@ -128,6 +155,8 @@ export const MCQ_QUESTIONS: MCQ[] = [
     question: "This book is mine. Please give it to ....",
     options: { a: "I", b: "my", c: "me", d: "mine" },
     answer: "c",
+    explanation:
+      "Setelah preposisi 'to' dipakai object pronoun; bentuk objek dari 'I' adalah 'me'.",
   },
   {
     id: 16,
@@ -135,6 +164,8 @@ export const MCQ_QUESTIONS: MCQ[] = [
     question: "Sinta and Dewi are sisters. .... house is near the market.",
     options: { a: "Their", b: "Them", c: "They", d: "Theirs" },
     answer: "a",
+    explanation:
+      "Dibutuhkan possessive adjective sebelum kata benda 'house'; milik mereka = 'their'.",
   },
   {
     id: 17,
@@ -142,6 +173,8 @@ export const MCQ_QUESTIONS: MCQ[] = [
     question: "Look at the bird! .... wings are beautiful.",
     options: { a: "His", b: "Her", c: "Its", d: "Our" },
     answer: "c",
+    explanation:
+      "Burung adalah hewan, kata ganti kepemilikannya adalah 'its'. His = milik laki-laki, Her = milik perempuan.",
   },
   {
     id: 18,
@@ -149,6 +182,8 @@ export const MCQ_QUESTIONS: MCQ[] = [
     question: "You .... wash your hands before eating.",
     options: { a: "should", b: "shall not", c: "may not", d: "would" },
     answer: "a",
+    explanation:
+      "Mencuci tangan sebelum makan adalah nasihat/saran → gunakan 'should' (sebaiknya).",
   },
   {
     id: 19,
@@ -156,6 +191,8 @@ export const MCQ_QUESTIONS: MCQ[] = [
     question: "Birds .... fly, but fish cannot.",
     options: { a: "must", b: "can", c: "should", d: "may not" },
     answer: "b",
+    explanation:
+      "Menyatakan kemampuan (ability) → gunakan 'can'. Burung bisa terbang, ikan tidak bisa.",
   },
   {
     id: 20,
@@ -163,6 +200,8 @@ export const MCQ_QUESTIONS: MCQ[] = [
     question: "Students .... not come late to school.",
     options: { a: "can", b: "will", c: "must", d: "may" },
     answer: "c",
+    explanation:
+      "Aturan/larangan tegas memakai 'must not' (tidak boleh). Siswa tidak boleh datang terlambat.",
   },
   {
     id: 21,
@@ -170,6 +209,8 @@ export const MCQ_QUESTIONS: MCQ[] = [
     question: '".... you help me carry this box, please?"',
     options: { a: "Could", b: "Did", c: "Was", d: "Am" },
     answer: "a",
+    explanation:
+      "Permintaan tolong yang sopan (polite request) diawali 'Could you ...?'.",
   },
   {
     id: 22,
@@ -183,6 +224,8 @@ export const MCQ_QUESTIONS: MCQ[] = [
       d: "He plants the trees.",
     },
     answer: "b",
+    explanation:
+      "Teks menyebutkan 'Bima waters the flowers' = Bima menyiram bunga. Ayahnya yang memotong rumput.",
   },
   {
     id: 23,
@@ -191,6 +234,7 @@ export const MCQ_QUESTIONS: MCQ[] = [
       "Read: 'Every Sunday, Bima and his family clean the garden.' When do they clean the garden?",
     options: { a: "On Monday", b: "On Friday", c: "On Sunday", d: "Every night" },
     answer: "c",
+    explanation: "Kalimat pertama jelas menyebut 'Every Sunday' = setiap hari Minggu.",
   },
   {
     id: 24,
@@ -199,6 +243,8 @@ export const MCQ_QUESTIONS: MCQ[] = [
       "Read: 'My rabbit is small. It has soft white fur and long ears. It likes eating carrots.' What is the text about?",
     options: { a: "A cat", b: "A rabbit", c: "A carrot", d: "A farm" },
     answer: "b",
+    explanation:
+      "Seluruh kalimat mendeskripsikan kelinci (rabbit): ukuran, bulu, telinga, dan makanannya.",
   },
   {
     id: 25,
@@ -206,6 +252,7 @@ export const MCQ_QUESTIONS: MCQ[] = [
     question: "From the text above, the rabbit's fur is ....",
     options: { a: "hard and black", b: "soft and white", c: "long and grey", d: "short and brown" },
     answer: "b",
+    explanation: "Teks menyebut 'soft white fur' = bulu yang lembut dan putih.",
   },
   {
     id: 26,
@@ -218,6 +265,8 @@ export const MCQ_QUESTIONS: MCQ[] = [
       d: "He will study tonight.",
     },
     answer: "b",
+    explanation:
+      "'Curly hair and a round face' (rambut keriting dan wajah bulat) adalah ciri penampilan fisik seseorang.",
   },
   {
     id: 27,
@@ -226,6 +275,8 @@ export const MCQ_QUESTIONS: MCQ[] = [
       "Read: 'Once upon a time, a clever mouse deer was trapped in a hole. A wise elephant helped him get out.' Who helped the mouse deer?",
     options: { a: "A tiger", b: "A farmer", c: "An elephant", d: "A crocodile" },
     answer: "c",
+    explanation:
+      "Teks menyebut 'A wise elephant helped him' = seekor gajah bijaksana yang menolong kancil.",
   },
   {
     id: 28,
@@ -233,6 +284,8 @@ export const MCQ_QUESTIONS: MCQ[] = [
     question: "The story above usually begins with the phrase ....",
     options: { a: "Once upon a time", b: "First of all", c: "In conclusion", d: "Dear friend" },
     answer: "a",
+    explanation:
+      "Cerita naratif (dongeng) khas diawali 'Once upon a time' (pada zaman dahulu kala).",
   },
   {
     id: 29,
@@ -240,6 +293,8 @@ export const MCQ_QUESTIONS: MCQ[] = [
     question: "'NO PARKING' — This sign means we may not .... in that area.",
     options: { a: "walk", b: "park our vehicle", c: "take a photo", d: "sit down" },
     answer: "b",
+    explanation:
+      "Rambu 'NO PARKING' berarti dilarang memarkir kendaraan di area tersebut.",
   },
   {
     id: 30,
@@ -253,6 +308,8 @@ export const MCQ_QUESTIONS: MCQ[] = [
       d: "At the market",
     },
     answer: "c",
+    explanation:
+      "Pengumuman menyebutkan upacara diadakan 'in the school yard' = di halaman sekolah.",
   },
 ];
 
