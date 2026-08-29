@@ -206,7 +206,11 @@ function QuizGame() {
         </p>
         <div className="grid grid-cols-8 gap-2 sm:grid-cols-11">
           {Array.from({ length: TOTAL }, (_, i) => {
-            const id = i < MCQ_QUESTIONS.length ? MCQ_QUESTIONS[i].id : ESSAY_QUESTIONS[i - MCQ_QUESTIONS.length].id;
+            const id =
+              i < MCQ_QUESTIONS.length
+                ? MCQ_QUESTIONS[i]!.id
+                : ESSAY_QUESTIONS[i - MCQ_QUESTIONS.length]!.id;
+
             const done =
               i < MCQ_QUESTIONS.length ? !!answers[id] : (essays[id] ?? "").trim().length > 0;
             return (
