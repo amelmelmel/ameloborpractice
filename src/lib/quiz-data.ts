@@ -6,6 +6,7 @@ export type MCQ = {
   question: string;
   options: Record<Choice, string>;
   answer: Choice;
+  explanation: string;
 };
 
 export type Essay = {
